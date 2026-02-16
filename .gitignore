@@ -1,0 +1,19 @@
+# Virtual Environment
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Data folder
+data/
+
+# Model weights
+models/
+*.pth
+
+# Environment variables
+.env
+
+# VS Code settings
+.vscode/
