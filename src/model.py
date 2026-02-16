@@ -181,6 +181,6 @@ class GPTModel(nn.Module):
 
 
 #Declare Gpt Architecture
-from configs.config import NEW_CONFIG
-model = GPTModel(NEW_CONFIG)
-model.eval();
+# from configs.config import NEW_CONFIG
+# model = GPTModel(NEW_CONFIG)
+# model.eval();
