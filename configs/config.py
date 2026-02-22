@@ -21,4 +21,5 @@ model_configs = {
 model_name = "gpt2-medium (355M)"  # Example model name
 NEW_CONFIG = GPT_CONFIG_124M.copy()
 NEW_CONFIG.update(model_configs[model_name])
+print(NEW_CONFIG)
 
