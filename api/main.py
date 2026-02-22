@@ -13,4 +13,4 @@ model.load_state_dict(torch.load("models/gpt2-medium 355M-sft.pth",map_location=
 #Move to cpu/gpu
 model.to(device)
 model.eval()
-print("Finetuned model Loaded Succesfully")
+# print("Finetuned model Loaded Succesfully")

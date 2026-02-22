@@ -9,6 +9,11 @@ from src.device import device
 from configs.config import NEW_CONFIG
 from src.generate import Generate_text
 
+
+
+#Turn off drop out and batch normalization
+model.eval()
+
 #see 3 responses from the test data and model response on the same input.
 torch.manual_seed(123)
 for data in test_data[:3]:
@@ -21,8 +26,8 @@ for data in test_data[:3]:
         idx = idx,
         max_new_tokens=50,
         context_size=NEW_CONFIG["context_length"],
-        top_k=50,
-        temperature=1.0,
+        top_k=1,
+        temperature=0.0,
         eos_id=50256
     )
     generated_text = token_ids_to_text(token_id,tokenizer)
