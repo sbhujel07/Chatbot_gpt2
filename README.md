@@ -1,116 +1,82 @@
-#  GPT-2 Chatbot – Built From Scratch
+🚀 GPT-2 Chatbot – Built From Scratch
+📌 About This Project
 
-##  About This Project
+This project began with a simple but powerful question:
 
-This project started as a challenge:  
-"Can I implement GPT-2 myself instead of relying completely on libraries?"
+"Can I build GPT-2 from scratch instead of relying entirely on libraries?"
 
-So instead of using HuggingFace’s ready-made model, I implemented the GPT-2 Transformer architecture from scratch, carefully matching the original structure - then loaded pretrained GPT-2 weights and fine-tuned the model on an Alpaca-style instruction dataset to make it conversational.
+Instead of using prebuilt implementations like HuggingFace, I implemented the GPT-2 architecture from the ground up, carefully reproducing its internal structure. After building the model, I loaded pretrained GPT-2 weights and fine-tuned it on an Alpaca-style instruction dataset to create a conversational chatbot.
 
-This repository represents my deep dive into Transformer architecture, weight mapping, and instruction tuning.
+This project reflects a deep hands-on understanding of:
 
----
+Transformer architecture
+Weight mapping & compatibility
+Instruction fine-tuning (SFT)
+🧠 Model Architecture
 
-##  Model Architecture
+The model strictly follows the GPT-2 (decoder-only Transformer) design:
 
-The model follows the original GPT-2 (decoder-only Transformer) design:
+Core Components:
+Token Embeddings + Positional Embeddings
+Multi-Head Self-Attention
+Causal Masking (for autoregressive generation)
+Residual (Shortcut) Connections
+Layer Normalization
+Feed-Forward Network (MLP Block)
+⚙️ Configuration (GPT-2 Medium Equivalent)
+Parameter	Value
+Vocabulary Size	50,257
+Context Length	1024
+Embedding Dimension	1024
+Attention Heads	16
+Transformer Layers	24
+Dropout Rate	0.1
+QKV Bias	True
 
-- Token + positional embeddings
-- Multi-head self-attention
-- Causal masking
-- Shortcut connections
-- Layer Normalization
-- Feed-forward network (MLP block)
+✅ The architecture was matched exactly to GPT-2 Medium to ensure seamless pretrained weight loading.
 
-Configuration used:
+🛠️ Development Journey
+🔹 Step 1 – Building the Architecture
 
-- Vocabulary size: 50257  
-- Context length: 1024  
-- Embedding dimension: 1024  
-- Attention heads: 16  
-- Transformer layers: 24
-- Drop_rate: 0.1
-- qkv_bias: True  
+Implemented from scratch:
 
-The goal was to match GPT-2 Medium architecture exactly so pretrained weights could be loaded without mismatch.
+Self-attention mechanism
+Transformer block
+Full GPT model class
+Weight initialization
+🔹 Step 2 – Loading Pretrained Weights
 
+Instead of training from scratch (which is computationally expensive):
 
-##  Training Journey
+Loaded official GPT-2 pretrained weights
+Mapped parameter names manually
+Verified tensor shapes
+Validated forward pass outputs
 
-### 🔹 Step 1 – Architecture Implementation
+✅ This ensured full compatibility with pretrained GPT-2.
 
-I first implemented:
-- Attention mechanism
-- Transformer block
-- Full GPT model class
-- Proper weight initialization
+🔹 Step 3 – Instruction Fine-Tuning
 
+After validating the base model:
 
+Dataset: Alpaca-style instruction dataset
+Training Type: Supervised Fine-Tuning (SFT)
+Loss Function: Cross-Entropy
+Optimizer: AdamW
 
-### 🔹 Step 2 – Loading Pretrained Weights
+🎯 Goal: Make the model generate helpful, instruction-following responses.
 
-Instead of training from zero, I:
-- Loaded official GPT-2 pretrained weights
-- Carefully mapped parameter names
-- Verified tensor shapes
-- Tested forward pass to confirm correctness
+⚡ FastAPI Chatbot API
 
-This ensured my implementation was 100% compatible.
+The project includes a FastAPI backend to serve the fine-tuned chatbot.
 
-
-### 🔹 Step 3 – Instruction Fine-Tuning
-
-After confirming the pretrained model worked correctly:
-
-- Dataset: Alpaca-style instruction dataset  
-- Objective: Supervised Fine-Tuning (SFT)  
-- Loss: Cross-Entropy  
-- Optimizer: AdamW  
-
-The model was trained to generate helpful, instruction-following responses.
-
-
-
-
-##  FastAPI Chatbot API
-
-This project includes a **FastAPI backend** for serving the fine-tuned GPT-2 chatbot.
-
-### Step 1 – Install dependencies
-Make sure your Python environment is ready:
-```bash
+🔧 Setup Instructions
+1. Clone the repository
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+2. Install dependencies
 pip install -r requirements.txt
-
-
-### Step 2 – Start FastAPI server
-Run this command in your terminal to start the server:
-    Bash
-    uvicorn app:app --host 0.0.0.0 --port 8000
-
-The server will run locally at http://localhost:8000.
-Keep this terminal open — the server must be running to accept requests.
-
-
-### Step 3 – Test the endpoint
-Open a new terminal (keep the server running) and run:
-    Bash
-    python test_app.py
-This will send a request to the /chat API and print the model’s response.
-
-
-### Step 4 -Example Request
-Here’s an example of how to send a request from Python:
-
-    python:
-    import requests
-
-    url = "http://localhost:8000/chat"
-    data = {
-        "instruction": "Write About Artificial Intelligence.",
-        "input_text": ""
-    }
-
-    response = requests.post(url, json=data)
-    print("Model Response:", response.json()["response"])
-
-You should see a response generated by your fine-tuned GPT-2 model.
+3. Run the server
+uvicorn app:app --reload
+4. Open in browser
+http://127.0.0.1:8000/docs
