@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import torch
 from api.main import model
@@ -37,3 +38,43 @@ def chat(request: Request):
     generated_text = token_ids_to_text(token_id, tokenizer)
     response = generated_text[len(prompt):].strip()
     return {"response": response}
+
+    # Simple HTML UI
+@app.get("/", response_class=HTMLResponse)
+def home():
+    return """
+    <html>
+        <head>
+            <title>GPT-2 Chat UI</title>
+        </head>
+        <body>
+            <h2>Chat with GPT-2</h2>
+            <form id="chatForm">
+                Instruction:<br>
+                <input type="text" id="instruction" name="instruction" size="50"><br><br>
+                Input Text:<br>
+                <input type="text" id="input_text" name="input_text" size="50"><br><br>
+                <input type="submit" value="Send">
+            </form>
+            <h3>Response:</h3>
+            <pre id="response"></pre>
+
+            <script>
+                const form = document.getElementById('chatForm');
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const instruction = document.getElementById('instruction').value;
+                    const input_text = document.getElementById('input_text').value;
+
+                    const res = await fetch('/chat', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({instruction, input_text})
+                    });
+                    const data = await res.json();
+                    document.getElementById('response').textContent = data.response;
+                });
+            </script>
+        </body>
+    </html>
+    """
